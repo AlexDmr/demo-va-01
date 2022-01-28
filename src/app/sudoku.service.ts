@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 
 // Définitions
-type VALUE = 0 | 1 | 2 | 3 | 4; // 0 means empty
-type BOARD = [
+export type VALUE = 0 | 1 | 2 | 3 | 4; // 0 means empty
+export type BOARD = [
   [VALUE, VALUE, VALUE, VALUE],
   [VALUE, VALUE, VALUE, VALUE],
   [VALUE, VALUE, VALUE, VALUE],
   [VALUE, VALUE, VALUE, VALUE]
 ];
 
-type BOARD_RO = readonly [
+export type BOARD_RO = readonly [
   readonly [VALUE, VALUE, VALUE, VALUE],
   readonly [VALUE, VALUE, VALUE, VALUE],
   readonly [VALUE, VALUE, VALUE, VALUE],
@@ -38,14 +38,35 @@ export class SudokuService {
   }
 
   /**
+   * On initialise le plateau avec b.
+   * Attention : b n'est pas copié mais référencé
+   * @param b le plateau utilisé pour initialiser
+   */
+  init(b: BOARD_RO): void {
+    this._board = b.map( L => [...L] ) as BOARD;
+  }
+
+  /**
    * Values that are playables at i, j
    * @param i Index of the line
    * @param j Index of the column
    * @returns [] if i, j is not a valid position or if the position already contains a VALUE !== 0
    * @returns the list of possible values otherwise
    */
-  playable(i: number, j: number): Set<VALUE> {
-    return new Set([]);
+  playable(i: number, j: number): VALUE[] {
+    if (this.board[i]?.[j] !== 0) {
+      return [];
+    } else {
+      const L: VALUE[] = [];
+      [1, 2, 3, 4].forEach( v => {
+        // Est ce que v est déjà présente sur la ligne i ?
+
+        // Est ce que v est déjà présente sur la colonne j ?
+
+        // Est ce que v est déjà présente sur le sous carré contenant i, j ?
+      });
+      return L;
+    }
   }
 
   /**
